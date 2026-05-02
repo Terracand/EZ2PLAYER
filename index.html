@@ -7,6 +7,11 @@
 <title>EZ2PLAYER</title>
 
 <style>
+.sub-title {
+  font-size: 0.75em;
+  opacity: 0.7;
+  margin-left: 4px;
+}
 body {
   margin: 0;
   background: #000;
@@ -106,11 +111,11 @@ body {
   height: 540px;
   overflow: visible;
 }
-
+/* 곡 목록 */
 .track {
   position: absolute;
-  width: 400px;
-  padding: 10px 30px;
+  width: 450px;
+  padding: 10px 40px;
   border-radius: 500px;
   border: 3px solid rgba(0,255,255,0.25);
   background: rgba(1,255,255,0.05);
@@ -143,7 +148,7 @@ body {
 
 .bottom {
   position: fixed;
-  bottom: 40px; /* ⭐ 기존 40px → 140px로 변경 */
+  bottom: 40px; 
   left: 40px;
 
   z-index: 20; /* ⭐ 플레이바보다 위 */
@@ -400,11 +405,74 @@ const tracks = [
     media: "media/song2.jpg"
   },
 
-/*EC 1*/
+/*EC 1-#2 ETERNITY*/
 {
     title: "Actias Artemis",
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] Actias Artemis.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "Hey Barbie",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Hey Barbie.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "Airwave",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Airwave.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "Todos Los Dias",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Todos Los Dias.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "Cosmical Rhythm",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Cosmical Rhythm.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "Dream Walker",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Dream Walker.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "On My Way",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] On My Way.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "A Glimmer",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] A Glimmer.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "Withered Heights",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Withered Heights.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "Stranger",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Stranger.mp3",
     cover: "cover/EC1.jpg",
     media: "media/EC1.jpg"
   },
@@ -416,76 +484,337 @@ const tracks = [
     media: "media/EC1.jpg"
   },
 {
-    title: "Actias Artemis",
+    title: "Orphan Children",
     artist: "2",
-    file: "audio/ec/[EZ2AC EC OST] Actias Artemis.mp3",
+    file: "audio/ec/[EZ2AC EC OST] Orphan Children.mp3",
     cover: "cover/EC1.jpg",
     media: "media/EC1.jpg"
   },
 {
-    title: "Actias Artemis",
+    title: "Tension",
     artist: "2",
-    file: "audio/ec/[EZ2AC EC OST] Actias Artemis.mp3",
+    file: "audio/ec/[EZ2AC EC OST] Tension.mp3",
     cover: "cover/EC1.jpg",
     media: "media/EC1.jpg"
   },
 {
-    title: "Actias Artemis",
+    title: "M!rror",
     artist: "2",
-    file: "audio/ec/[EZ2AC EC OST] Actias Artemis.mp3",
+    file: "audio/ec/[EZ2AC EC OST] M!rror.mp3",
     cover: "cover/EC1.jpg",
     media: "media/EC1.jpg"
   },
 {
-    title: "Actias Artemis",
+    title: "Quadcore",
     artist: "2",
-    file: "audio/ec/[EZ2AC EC OST] Actias Artemis.mp3",
+    file: "audio/ec/[EZ2AC EC OST] Quadcore.mp3",
     cover: "cover/EC1.jpg",
     media: "media/EC1.jpg"
   },
 {
-    title: "Actias Artemis",
+    title: "First Fantasy",
     artist: "2",
-    file: "audio/ec/[EZ2AC EC OST] Actias Artemis.mp3",
+    file: "audio/ec/[EZ2AC EC OST] First Fantasy.mp3",
     cover: "cover/EC1.jpg",
     media: "media/EC1.jpg"
   },
 {
-    title: "Actias Artemis",
+    title: "Distopia",
     artist: "2",
-    file: "audio/ec/[EZ2AC EC OST] Actias Artemis.mp3",
+    file: "audio/ec/[EZ2AC EC OST] Distopia.mp3",
     cover: "cover/EC1.jpg",
     media: "media/EC1.jpg"
   },
 {
-    title: "Actias Artemis",
+    title: "Nothing Else",
     artist: "2",
-    file: "audio/ec/[EZ2AC EC OST] Actias Artemis.mp3",
+    file: "audio/ec/[EZ2AC EC OST] Nothing Else.mp3",
     cover: "cover/EC1.jpg",
     media: "media/EC1.jpg"
   },
 {
-    title: "Actias Artemis",
+    title: "Indistinction",
     artist: "2",
-    file: "audio/ec/[EZ2AC EC OST] Actias Artemis.mp3",
+    file: "audio/ec/[EZ2AC EC OST] Indistinction.mp3",
     cover: "cover/EC1.jpg",
     media: "media/EC1.jpg"
   },
 {
-    title: "Actias Artemis",
+    title: "Sigma",
     artist: "2",
-    file: "audio/ec/[EZ2AC EC OST] Actias Artemis.mp3",
+    file: "audio/ec/[EZ2AC EC OST] Sigma.mp3",
     cover: "cover/EC1.jpg",
     media: "media/EC1.jpg"
   },
 {
-    title: "Actias Artemis",
+    title: "Tron",
     artist: "2",
-    file: "audio/ec/[EZ2AC EC OST] Actias Artemis.mp3",
+    file: "audio/ec/[EZ2AC EC OST] Tron.mp3",
     cover: "cover/EC1.jpg",
     media: "media/EC1.jpg"
   },
+{
+    title: "Dancing Light",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Dancing Light.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "Entire",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Entire.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "Beatrice",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Beatrice.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "Shine Through",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Shine Through.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+/*EC2-#3 CHALLENGE*/
 
+{
+    title: "Aniart",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Aniart.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "True",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] True.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "Shove it",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Shove it.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "Starlight Factory",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Starlight Factory.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC1.jpg"
+  },
+{
+    title: "Again",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Again.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "Push me again",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Push me again.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "FUTURE NIGHT",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] FUTURE NIGHT.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "Fallback",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Fallback.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "Magic Square",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Magic Square.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "Rendezvous Coast",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Rendezvous Coast.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "Hesitate",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Hesitate.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "UniT",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] UniT.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "WHEEL OF FIRE",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] WHEEL OF FIRE.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "Black tinted alley",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Black tinted alley.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "Total Eclipse",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Total Eclipse.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "Planet X",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Planet X.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "Break of Dawn",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Break of Dawn.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "A Site De La Rue",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] A Site De La Rue.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "Legend",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Legend.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+{
+    title: "northpole",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] northpole.mp3",
+    cover: "cover/EC2.jpg",
+    media: "media/EC2.jpg"
+  },
+/*EC3-#4 SPIRAL*/
+{
+    title: "Funfair",
+    artist: "2",
+    file: "audio/ec/BONUS/EZ2AC BONUS OST - Funfair.mp3",
+    cover: "cover/EC3.jpg",
+    media: "media/EC3.jpg"
+  },
+{
+    title: "Actias Artemis (Original Mix)",
+    artist: "2",
+    file: "audio/ec/BONUS/EZ2AC BONUS OST - Actias Artemis (Original Mix).mp3",
+    cover: "cover/EC3.jpg",
+    media: "media/EC3.jpg"
+  },
+{
+    title: "Northpole (Original Mix)",
+    artist: "2",
+    file: "audio/ec/BONUS/EZ2AC BONUS OST - Northpole (Original Mix).mp3",
+    cover: "cover/EC3.jpg",
+    media: "media/EC3.jpg"
+  },
+{
+    title: "Starlight Factory (Overflow Extended Mix)",
+    artist: "2",
+    file: "audio/ec/BONUS/EZ2AC BONUS OST - Starlight Factory (Overflow Extended Mix).mp3",
+    cover: "cover/EC3.jpg",
+    media: "media/EC3.jpg"
+  },
+{
+    title: "The White Horizon",
+    artist: "2",
+    file: "audio/ec/BONUS/EZ2AC BONUS OST - The White Horizon.mp3",
+    cover: "cover/EC3.jpg",
+    media: "media/EC3.jpg"
+  },
+{
+    title: "Sewing Machine",
+    artist: "2",
+    file: "audio/ec/BONUS/EZ2AC BONUS OST - Sewing Machine.mp3",
+    cover: "cover/EC3.jpg",
+    media: "media/EC3.jpg"
+  },
+{
+    title: "Phat Trash (Original Mix)",
+    artist: "2",
+    file: "audio/ec/BONUS/EZ2AC BONUS OST - Phat Trash (Original Mix).mp3",
+    cover: "cover/EC3.jpg",
+    media: "media/EC3.jpg"
+  },
+{
+    title: "Diamond Shore",
+    artist: "2",
+    file: "audio/ec/BONUS/EZ2AC BONUS OST - Diamond Shore.mp3",
+    cover: "cover/EC3.jpg",
+    media: "media/EC3.jpg"
+  },
+{
+    title: "Hy Droly Sis",
+    artist: "2",
+    file: "audio/ec/BONUS/EZ2AC BONUS OST - Hy Droly Sis.mp3",
+    cover: "cover/EC3.jpg",
+    media: "media/EC3.jpg"
+  },
+{
+    title: "Atomizer",
+    artist: "2",
+    file: "audio/ec/BONUS/EZ2AC BONUS OST - Atomizer.mp3",
+    cover: "cover/EC3.jpg",
+    media: "media/EC3.jpg"
+  },
+{
+    title: "Messier 333",
+    artist: "2",
+    file: "audio/ec/BONUS/EZ2AC BONUS OST - Messier 333.mp3",
+    cover: "cover/EC3.jpg",
+    media: "media/EC3.jpg"
+  },
+{
+    title: "ApolloN",
+    artist: "2",
+    file: "audio/ec/BONUS/EZ2AC BONUS OST - ApolloN.mp3",
+    cover: "cover/EC3.jpg",
+    media: "media/EC3.jpg"
+  },
+{
+    title: "Kamui (神威)",
+    artist: "2",
+    file: "audio/ec/BONUS/EZ2AC BONUS OST - Kamui (神威).mp3",
+    cover: "cover/EC3.jpg",
+    media: "media/EC3.jpg"
+  },
 
 ];
 
@@ -527,7 +856,17 @@ function render() {
     const x = Math.cos(offset * 0.42) * 210;
 
     div.className = "track" + (i === current ? " active" : "");
-    div.innerText = t.title;
+    
+const match = t.title.match(/^(.*?)(\s*\(.*\))?$/);
+
+const main = match?.[1] || t.title;
+const sub = match?.[2] || "";
+
+div.innerHTML = `
+  ${main}
+  <span class="sub-title">${sub}</span>
+`;
+
     div.style.left = "120px";
     div.style.top = "260px";
     div.style.opacity = Math.max(0.18, 1 - Math.abs(offset) * 0.18);
@@ -631,6 +970,10 @@ window.addEventListener("wheel", e => {
 });
 
 loadTrack(0);
+
+div.innerHTML = `
+  <div class="track-text">${t.title}</div>
+`;
 </script>
 
 </body>
