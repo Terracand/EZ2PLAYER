@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EZ2PLAYER Rebuild</title>
+
+<style>
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+.left {
+  position: absolute;
+  left: 0;
+  top: 45%;
+  transform: translate(-50%, -50%);
+}
+
+.cd {
+  width: 800px;
+  height: 800px;
+  border-radius: 50%;
+  background: #111;
+  background-size: cover;
+  box-shadow: 0 0 60px rgba(255,255,255,0.15);
+ position: relative;
+
+}
+.cd::after {
+  content: "";
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    #000 0%,
+    #111 45%,
+    #333 70%,
+    #111 100%
+  );
+
+  border: 2px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    inset 0 0 18px rgba(255,255,255,0.08),
+    0 0 14px rgba(0,0,0,0.8);
+}
+.spin {
+  animation: spin 6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.arc {
+  position: absolute;
+  left: 40%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 520px;
+  height: 540px;
+  overflow: visible;
+}
+
+.track {
+  position: absolute;
+  width: 280px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,255,255,0.25);
+  background: rgba(0,255,255,0.05);
+  color: #9ff;
+  box-shadow: 0 0 12px rgba(0,255,255,0.12);
+  cursor: pointer;
+  transition: transform 0.32s ease, opacity 0.32s ease, box-shadow 0.25s ease;
+}
+
+.track.active {
+  color: #fff;
+  border-color: #00ffe1;
+  box-shadow: 0 0 18px #00ffe1;
+  font-size: 18px;
+}
+
+.right {
+  position: absolute;
+  right: 5%;
+  top: 10%;
+  width: 25%;
+}
+
+.right video,
+.right img {
+  width: 100%;
+  opacity: 0.75;
+  filter: grayscale(1);
+}
+
+.bottom {
+  position: fixed;
+  bottom: 40px; /* ⭐ 기존 40px → 140px로 변경 */
+  left: 40px;
+
+  z-index: 20; /* ⭐ 플레이바보다 위 */
+}
+
+.title {
+  font-size: 32px;
+}
+
+.artist {
+  opacity: 0.5;
+}
+
+.player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: linear-gradient(to top, rgba(40,40,40,0.95), rgba(0,0,0,0));
+}
+
+button {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 12px;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  box-shadow: 0 0 12px #00ffe1;
+}
+
+.seek { width: 340px; }
+.vol { width: 140px; }
+</style>
+</head>
+<body>
+
+<div class="left">
+  <div class="cd" id="cd"></div>
+</div>
+
+<div class="arc" id="arc"></div>
+
+<div class="right" id="mediaBox"></div>
+
+<div class="bottom">
+  <div class="title" id="title"></div>
+  <div class="artist" id="artist"></div>
+</div>
+
+<div class="player-bar">
+  <button onclick="prevTrack()">⏮</button>
+  <button onclick="togglePlay()" id="playBtn">▶</button>
+  <button onclick="nextTrack()">⏭</button>
+
+  <input class="seek" type="range" min="0" max="100" value="0" id="seek">
+  <input class="vol" type="range" min="0" max="1" step="0.01" value="1" onchange="audio.volume=this.value">
+</div>
+
+<audio id="audio"></audio>
+
+<script>
+/* 🎵 직접 관리하는 트랙 리스트 (여기가 핵심) */
+const tracks = [
+  {
+    title: "1950",
+    artist: "1",
+    file: "audio/EZ2DJ AEIC OST - 1950.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song1.mp4"
+  },
+  {
+    title: "The Onyx Night Sky",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - The Onyx Night Sky.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "The Greatest Escape",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - The Greatest Escape.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Satellite 61",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - Satellite 61.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Rising In My Heart",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - Rising In My Heart.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Phat Trash",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - Phat Trash.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Nihilism",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - Nihilism.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Liquid cube",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - Liquid cube.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "If i Coudn't see you again",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - If i Coudn't see you again.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Extra Wave",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - Extra Wave.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  }
+];
+
+const audio = document.getElementById("audio");
+const arc = document.getElementById("arc");
+const cd = document.getElementById("cd");
+const mediaBox = document.getElementById("mediaBox");
+const seek = document.getElementById("seek");
+let current = 0;
+
+function loadTrack(i) {
+  current = i;
+  const t = tracks[i];
+
+  audio.src = t.file;
+  audio.play();
+
+  cd.style.backgroundImage = `url(${t.cover})`;
+  title.innerText = t.title;
+  artist.innerText = t.artist;
+
+  if (t.media.endsWith(".mp4")) {
+    mediaBox.innerHTML = `<video src="${t.media}" autoplay loop muted></video>`;
+  } else {
+    mediaBox.innerHTML = `<img src="${t.media}">`;
+  }
+
+  playBtn.innerText = "⏸";
+  render();
+}
+
+function render() {
+  arc.innerHTML = "";
+
+  tracks.forEach((t, i) => {
+    const div = document.createElement("div");
+    const offset = i - current;
+    const y = 260 + offset * 58;
+    const x = Math.cos(offset * 0.42) * 210;
+
+    div.className = "track" + (i === current ? " active" : "");
+    div.innerText = t.title;
+    div.style.left = "120px";
+    div.style.top = "260px";
+    div.style.opacity = Math.max(0.18, 1 - Math.abs(offset) * 0.18);
+    div.style.transform = `translate(${x}px, ${y - 260}px) translateY(-50%) scale(${i === current ? 1.12 : (1 - Math.abs(offset) * 0.04)})`;
+
+    div.onclick = () => loadTrack(i);
+    arc.appendChild(div);
+  });
+}
+
+function togglePlay() {
+  if (audio.paused) {
+    audio.play();
+    playBtn.innerText = "⏸";
+  } else {
+    audio.pause();
+    playBtn.innerText = "▶";
+  }
+}
+
+function prevTrack() {
+  loadTrack((current - 1 + tracks.length) % tracks.length);
+}
+
+function nextTrack() {
+  loadTrack((current + 1) % tracks.length);
+}
+
+audio.onplay = () => cd.classList.add("spin");
+audio.onpause = () => cd.classList.remove("spin");
+audio.onended = nextTrack;
+audio.ontimeupdate = () => {
+  seek.value = ((audio.currentTime / audio.duration) || 0) * 100;
+};
+seek.oninput = () => {
+  audio.currentTime = (seek.value / 100) * audio.duration;
+};
+
+let wheelLock = false;
+
+window.addEventListener("wheel", e => {
+  if (wheelLock) return;
+  wheelLock = true;
+  setTimeout(() => { wheelLock = false; }, 220);
+  if (e.deltaY > 0) nextTrack();
+  else prevTrack();
+});
+
+loadTrack(0);
+</script>
+
+</body>
+</html>
