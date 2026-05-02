@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>EZ2PLAYER</title>
+
+<style>
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+/* CD */
+.left {
+  position: absolute;
+  left: 0;
+  top: 45%;
+  transform: translate(-50%, -50%);
+}
+
+.cd {
+  width: 800px;
+  height: 800px;
+  border-radius: 100%;
+  background-size: cover;
+  box-shadow: 0 0 60px rgba(255,255,255,0.15);
+}
+
+.spin {
+  animation: spin 6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 반원 UI */
+.arc {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 400px;
+  height: 500px;
+
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  padding: 10px;
+
+  scrollbar-width: none;
+}
+
+.arc::-webkit-scrollbar {
+  display: none;
+}
+
+.track {
+  position: absolute;
+  transform-origin: 200px center;
+  cursor: pointer;
+  color: #aaa;
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+.track.active {
+  color: #00ffcc;
+  font-size: 18px;
+}
+
+/* 영상 */
+.right {
+  position: absolute;
+  right: 5%;
+  top: 10%;
+  width: 25%;
+}
+
+.right video, .right img {
+  width: 100%;
+  opacity: 0.7;
+  filter: grayscale(1);
+}
+
+/* 하단 */
+.bottom {
+  position: fixed;
+  bottom: 40px; /* ⭐ 기존 40px → 140px로 변경 */
+  left: 40px;
+
+  z-index: 20; /* ⭐ 플레이바보다 위 */
+}
+
+.title { font-size: 32px; }
+.artist { opacity: 0.5; }
+
+/* 🔻 하단 플레이 컨트롤 영역 */
+.player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  background: linear-gradient(
+    to top,
+    rgba(40,40,40,0.95),
+    rgba(0,0,0,0)
+  );
+
+  backdrop-filter: blur(10px);
+
+  z-index: 10; /* ⭐ 추가 */
+}
+</style>
+</head>
+
+<body>
+
+<div class="left">
+  <div class="cd" id="cd"></div>
+</div>
+
+<div class="arc" id="arc"></div>
+
+<div class="right" id="mediaBox"></div>
+
+<div class="bottom">
+  <div class="title" id="title"></div>
+  <div class="artist" id="artist"></div>
+</div>
+
+<audio id="audio"></audio>
+
+<script>
+
+/* 🎵 직접 관리하는 트랙 리스트 (여기가 핵심) */
+const tracks = [
+    {
+    title: "1950",
+    artist: "1",
+    file: "audio/EZ2DJ AEIC OST - 1950.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song1.mp4"
+  },
+  {
+    title: "The Onyx Night Sky",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - The Onyx Night Sky.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "The Greatest Escape",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - The Greatest Escape.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Satellite 61",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - Satellite 61.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Rising In My Heart",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - Rising In My Heart.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Phat Trash",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - Phat Trash.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Nihilism",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - Nihilism.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Liquid cube",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - Liquid cube.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "If i Coudn't see you again",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - If i Coudn't see you again.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Extra Wave",
+    artist: "2",
+    file: "audio/EZ2DJ AEIC OST - Extra Wave.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  }
+];
+
+const audio = document.getElementById("audio");
+const arc = document.getElementById("arc");
+const cd = document.getElementById("cd");
+const mediaBox = document.getElementById("mediaBox");
+
+let current = 0;
+
+/* 🎧 트랙 로드 */
+function loadTrack(i){
+  current = i;
+  const t = tracks[i];
+
+  audio.src = t.file;
+  audio.play();
+
+  cd.style.backgroundImage = `url(${t.cover})`;
+
+  document.getElementById("title").innerText = t.title;
+  document.getElementById("artist").innerText = t.artist;
+
+  if(t.media.endsWith(".mp4")){
+    mediaBox.innerHTML = `<video src="${t.media}" autoplay loop muted></video>`;
+  } else {
+    mediaBox.innerHTML = `<img src="${t.media}">`;
+  }
+
+  render();
+}
+
+/* 🌙 반원 렌더 */
+function render(){
+  arc.innerHTML = "";
+
+  tracks.forEach((t,i)=>{
+    const div = document.createElement("div");
+    div.className = "track";
+    div.innerText = t.title;
+
+    // ✔ 세로 리스트 (절대 반원 제거)
+    div.style.position = "relative";
+    div.style.padding = "10px 0";
+    div.style.cursor = "pointer";
+
+    div.style.opacity = i === current ? "1" : "0.4";
+    div.style.color = i === current ? "#00ffcc" : "#aaa";
+    div.style.fontSize = i === current ? "18px" : "14px";
+
+    div.onclick = ()=>loadTrack(i);
+
+    arc.appendChild(div);
+  });
+}
+
+/* 🎚 스크롤 이동 */
+window.addEventListener("wheel", e=>{
+  if(e.deltaY > 0){
+    current = (current + 1) % tracks.length;
+  } else {
+    current = (current - 1 + tracks.length) % tracks.length;
+  }
+  loadTrack(current);
+});
+
+/* 💿 CD 회전 */
+audio.addEventListener("play", ()=>cd.classList.add("spin"));
+audio.addEventListener("pause", ()=>cd.classList.remove("spin"));
+
+/* 초기 */
+loadTrack(0);
+document.getElementById("playBtn").innerText = "⏸";
+function togglePlay(){
+  if(audio.paused){
+    audio.play();
+    document.getElementById("playBtn").innerText = "⏸";
+  } else {
+    audio.pause();
+    document.getElementById("playBtn").innerText = "▶";
+  }
+}
+function prevTrack(){
+  current = (current - 1 + tracks.length) % tracks.length;
+  loadTrack(current);
+}
+function nextTrack(){
+  current = (current + 1) % tracks.length;
+  loadTrack(current);
+}
+function setVolume(v){
+  audio.volume = v;
+}
+
+</script>
+<div class="player-bar">
+
+  <button onclick="prevTrack()">⏮</button>
+  <button onclick="togglePlay()" id="playBtn">▶</button>
+  <button onclick="nextTrack()">⏭</button>
+
+  <input type="range" min="0" max="1" step="0.01"
+         onchange="setVolume(this.value)" />
+
+</div>
+</body>
+</html>
