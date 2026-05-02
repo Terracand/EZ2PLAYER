@@ -30,7 +30,7 @@ body {
 
 .left {
   position: absolute;
-  left: 0;
+  left: 5%;
   top: 45%;
   transform: translate(-50%, -50%);
 }
@@ -41,14 +41,14 @@ body {
   border-radius: 50%;
   background: #111;
   background-size: cover;
-  border: 6px solid #666;
+  border: 4px solid #666;
  box-shadow:
     0 0 60px rgba(255,255,255,0.15),
     inset 0 0 12px rgba(255,255,255,0.08);
 
   position: relative;
   animation-play-state: paused;
-  transition: transform 1.2s ease-out;
+  transition: transform 0.2s ease-out;
 }
 }
 .cd.spin {
@@ -104,17 +104,17 @@ body {
 
 .arc {
   position: absolute;
-  left: 40%;
+  left: 20%;
   top: 50%;
   transform: translateY(-50%);
   width: 520px;
   height: 540px;
   overflow: visible;
 }
-/* 곡 목록 */
+/* 곡 목록표 */
 .track {
   position: absolute;
-  width: 450px;
+  width: 550px;
   padding: 10px 40px;
   border-radius: 500px;
   border: 3px solid rgba(0,255,255,0.25);
@@ -971,9 +971,46 @@ window.addEventListener("wheel", e => {
 
 loadTrack(0);
 
-div.innerHTML = `
-  <div class="track-text">${t.title}</div>
-`;
+document.addEventListener("keydown", (e) => {
+
+  switch (e.code) {
+
+    /* ▶ / ⏸ 스페이스 */
+    case "Space":
+      e.preventDefault();
+      togglePlay();
+      break;
+
+    /* ⏮ 이전곡 */
+    case "ArrowLeft":
+      prevTrack();
+      break;
+
+    /* ⏭ 다음곡 */
+    case "ArrowRight":
+      nextTrack();
+      break;
+
+    /* 🔊 볼륨 ↓ */
+    case "ArrowDown":
+      audio.volume = Math.max(0, audio.volume - 0.1);
+      break;
+
+    /* 🔊 볼륨 ↑ */
+    case "ArrowUp":
+      audio.volume = Math.min(1, audio.volume + 0.1);
+      break;
+
+    /* 🎵 숫자 1~9: 곡 점프 */
+    default:
+      if (e.code.startsWith("Digit")) {
+        const num = parseInt(e.code.replace("Digit", ""), 10) - 1;
+        if (tracks[num]) loadTrack(num);
+      }
+      break;
+  }
+});
+
 </script>
 
 </body>
