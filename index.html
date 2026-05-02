@@ -27,11 +27,32 @@ body {
   border-radius: 50%;
   background: #111;
   background-size: cover;
-  box-shadow: 0 0 60px rgba(255,255,255,0.15);
- position: relative;
+  border: 6px solid #666;
+ box-shadow:
+    0 0 60px rgba(255,255,255,0.15),
+    inset 0 0 12px rgba(255,255,255,0.08);
 
+  position: relative;
 }
+/* 기존 .cd::after 수정 (중앙 구멍 + 투명 플라스틱 허브) */
+
 .cd::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image: url("cover/disc.png"); /* 원하는 이미지 */
+  background-size: cover;
+  background-position: center;
+
+  opacity: 0.5; /* 투명도 조절 */
+  mix-blend-mode: none; /* 밝게 합성 (screen,overlay, soft-light 도 가능) */
+
+  pointer-events: none;
+}
+
+/* 기존 .cd::before 수정 (가운데 작은 구멍 크게) */
+.cd::before {
   content: "";
   position: absolute;
 
@@ -39,24 +60,19 @@ body {
   top: 50%;
   transform: translate(-50%, -50%);
 
-  width: 92px;
-  height: 92px;
+  /* 🔻 중앙 구멍 크기 확대 */
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
 
-  background: radial-gradient(
-    circle,
-    #000 0%,
-    #111 45%,
-    #333 70%,
-    #111 100%
-  );
-
-  border: 2px solid rgba(255,255,255,0.08);
+  background: #000;
+  border: 3px solid #777;
 
   box-shadow:
-    inset 0 0 18px rgba(255,255,255,0.08),
-    0 0 14px rgba(0,0,0,0.8);
+    inset 0 0 8px rgba(255,255,255,0.08),
+    0 0 8px rgba(0,0,0,0.8);
 }
+
 .spin {
   animation: spin 6s linear infinite;
 }
@@ -189,7 +205,7 @@ const tracks = [
     artist: "1",
     file: "audio/EZ2DJ AEIC OST - 1950.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song1.mp4"
+    media: "media/EZ2DJ AEIC OST - 1950.mp4"
   },
   {
     title: "The Onyx Night Sky",
@@ -238,7 +254,7 @@ const tracks = [
     artist: "2",
     file: "audio/EZ2DJ AEIC OST - Liquid cube.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
+    media: "media/EZ2DJ AEIC OST - Liquid cube.mp4"
   },
 {
     title: "If i Coudn't see you again",
