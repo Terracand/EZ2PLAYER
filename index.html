@@ -33,6 +33,13 @@ body {
     inset 0 0 12px rgba(255,255,255,0.08);
 
   position: relative;
+  animation-play-state: paused;
+  transition: transform 1.2s ease-out;
+}
+}
+.cd.spin {
+  animation: spin 6s linear infinite;
+  animation-play-state: running;
 }
 /* 기존 .cd::after 수정 (중앙 구멍 + 투명 플라스틱 허브) */
 
@@ -198,78 +205,201 @@ button:hover {
 <audio id="audio"></audio>
 
 <script>
-/* 🎵 직접 관리하는 트랙 리스트 (여기가 핵심) */
+/* 🎵 직접 관리하는 노래 song 트랙 리스트 (여기가 핵심) */
 const tracks = [
-  {
+  /* AEIC */
+{
     title: "1950",
     artist: "1",
-    file: "audio/EZ2DJ AEIC OST - 1950.mp3",
+    file: "audio/aeic/EZ2DJ AEIC OST - 1950.mp3",
     cover: "cover/AZURE.jpg",
     media: "media/EZ2DJ AEIC OST - 1950.mp4"
   },
-  {
-    title: "The Onyx Night Sky",
+{
+    title: "Andes",
     artist: "2",
-    file: "audio/EZ2DJ AEIC OST - The Onyx Night Sky.mp3",
+    file: "audio/aeic/EZ2DJ AEIC OST - Andes.mp3",
     cover: "cover/AZURE.jpg",
     media: "media/song2.jpg"
   },
 {
-    title: "The Greatest Escape",
+    title: "Beyond The Azure Skies",
     artist: "2",
-    file: "audio/EZ2DJ AEIC OST - The Greatest Escape.mp3",
+    file: "audio/aeic/EZ2DJ AEIC OST - Beyond The Azure Skies.mp3",
     cover: "cover/AZURE.jpg",
     media: "media/song2.jpg"
   },
 {
-    title: "Satellite 61",
+    title: "Core",
     artist: "2",
-    file: "audio/EZ2DJ AEIC OST - Satellite 61.mp3",
+    file: "audio/aeic/EZ2DJ AEIC OST - Core.mp3",
     cover: "cover/AZURE.jpg",
     media: "media/song2.jpg"
   },
 {
-    title: "Rising In My Heart",
+    title: "Crisp",
     artist: "2",
-    file: "audio/EZ2DJ AEIC OST - Rising In My Heart.mp3",
-    cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
-  },
-{
-    title: "Phat Trash",
-    artist: "2",
-    file: "audio/EZ2DJ AEIC OST - Phat Trash.mp3",
-    cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
-  },
-{
-    title: "Nihilism",
-    artist: "2",
-    file: "audio/EZ2DJ AEIC OST - Nihilism.mp3",
-    cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
-  },
-{
-    title: "Liquid cube",
-    artist: "2",
-    file: "audio/EZ2DJ AEIC OST - Liquid cube.mp3",
-    cover: "cover/AZURE.jpg",
-    media: "media/EZ2DJ AEIC OST - Liquid cube.mp4"
-  },
-{
-    title: "If i Coudn't see you again",
-    artist: "2",
-    file: "audio/EZ2DJ AEIC OST - If i Coudn't see you again.mp3",
+    file: "audio/aeic/EZ2DJ AEIC OST - Crisp.mp3",
     cover: "cover/AZURE.jpg",
     media: "media/song2.jpg"
   },
 {
     title: "Extra Wave",
     artist: "2",
-    file: "audio/EZ2DJ AEIC OST - Extra Wave.mp3",
+    file: "audio/aeic/EZ2DJ AEIC OST - Extra Wave.mp3",
     cover: "cover/AZURE.jpg",
     media: "media/song2.jpg"
-  }
+  },
+  {
+    title: "Frostbite",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Frostbite.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Frozen Eyes",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Frozen Eyes.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "If i Coudn't see you again",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - If i Coudn't see you again.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Illusion",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Illusion.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Intuition",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Intuition.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Nihilism",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Nihilism.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Liquid cube",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Liquid cube.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/EZ2DJ AEIC OST - Liquid cube.mp4"
+  },
+{
+    title: "Morgenglut 2012",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Morgenglut 2012.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Nachthexen",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Nachthexen.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Nihilism",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Nihilism.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Out Of The Blue",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Out Of The Blue.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Phat Trash",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Phat Trash.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Resonance Spectra",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Resonance Spectra.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Rising In My Heart",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Rising In My Heart.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Satellite 61",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Satellite 61.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Taillight Phantom",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Taillight Phantom.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "The Ashtray",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - The Ashtray.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "The Greatest Escape",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - The Greatest Escape.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "The Onyx Night Sky",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - The Onyx Night Sky.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+{
+    title: "Wind Tales",
+    artist: "2",
+    file: "audio/aeic/EZ2DJ AEIC OST - Wind Tales.mp3",
+    cover: "cover/AZURE.jpg",
+    media: "media/song2.jpg"
+  },
+
+/*EC 1*/
+{
+    title: "Actias Artemis",
+    artist: "2",
+    file: "audio/ec/[EZ2AC EC OST] Actias Artemis.mp3",
+    cover: "cover/EC1.jpg",
+    media: "media/EC1.jpg"
+  },
+
 ];
 
 const audio = document.getElementById("audio");
@@ -339,9 +469,52 @@ function nextTrack() {
   loadTrack((current + 1) % tracks.length);
 }
 
-audio.onplay = () => cd.classList.add("spin");
-audio.onpause = () => cd.classList.remove("spin");
+/* <script> 안 기존 CD 회전 코드 전부 삭제 후 이것으로 교체 */
+
+let angle = 0;          // 현재 회전 각도
+let speed = 0;          // 현재 회전 속도
+let targetSpeed = 0;    // 목표 속도
+let spinning = false;
+
+/* 매 프레임 회전 */
+function animateCD() {
+  if (!spinning) return;
+
+  /* 목표속도로 천천히 접근 (가속/감속) */
+  speed += (targetSpeed - speed) * 0.03;
+
+  angle += speed;
+  cd.style.transform = `rotate(${angle}deg)`;
+
+  requestAnimationFrame(animateCD);
+
+  /* 거의 멈췄으면 완전 정지 */
+  if (targetSpeed === 0 && Math.abs(speed) < 0.01) {
+    speed = 0;
+    spinning = false;
+  }
+}
+
+/* 재생 */
+audio.onplay = () => {
+  targetSpeed = 0.8;   // 회전 속도
+  if (!spinning) {
+    spinning = true;
+    animateCD();
+  }
+};
+
+/* 일시정지 = 감속 정지 */
+audio.onpause = () => {
+  targetSpeed = 0;
+};
+
+/* 곡 끝나면 다음곡 */
 audio.onended = nextTrack;
+
+
+
+
 audio.ontimeupdate = () => {
   seek.value = ((audio.currentTime / audio.duration) || 0) * 100;
 };
@@ -351,12 +524,23 @@ seek.oninput = () => {
 
 let wheelLock = false;
 
+let wheelSum = 0;
+
 window.addEventListener("wheel", e => {
-  if (wheelLock) return;
-  wheelLock = true;
-  setTimeout(() => { wheelLock = false; }, 220);
-  if (e.deltaY > 0) nextTrack();
-  else prevTrack();
+  wheelSum += e.deltaY;
+
+  /* 숫자 낮을수록 더 민감함 */
+  const threshold = 30;
+
+  if (wheelSum >= threshold) {
+    nextTrack();
+    wheelSum = 0;
+  }
+
+  if (wheelSum <= -threshold) {
+    prevTrack();
+    wheelSum = 0;
+  }
 });
 
 loadTrack(0);
