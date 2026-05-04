@@ -277,7 +277,7 @@ button:hover {
 .seek { width: 340px; }
 .vol { width: 140px; }
 
-/*모바일 UI*/
+/*모바일  UI*/
 
 @media (max-width: 768px) and (pointer: coarse) and (orientation: portrait) {
 
@@ -287,14 +287,7 @@ button:hover {
   }
 
   body {
-    overflow: auto; /* 👉 이 안에 들어가야 함 */
-  }
-
-  /* CD 크기 줄이기 */
-  .cd {
-    width: 260px;
-    height: 260px;
-  }
+    overflow: hidden; 
 
   .left {
     position: relative;
@@ -375,9 +368,9 @@ button:hover {
 /* 📱 모바일 가로모드 = PC 느낌 UI */
 @media (max-width: 768px) and (orientation: landscape) {
 
-  body {
-    overflow: hidden;
-  }
+body {
+  overflow: hidden;
+  touch-action: none; }
 
   /* CD 위치 복구 */
   .left {
@@ -392,7 +385,11 @@ button:hover {
     width: 380px;
     height: 380px;
   }
-
+.arc {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
   /* 곡 리스트 원래처럼 */
   .arc {
     position: absolute;
