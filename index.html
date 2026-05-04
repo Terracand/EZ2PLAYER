@@ -510,7 +510,7 @@ const tracks = [
     artist: "1",
     file: "audio/aeic/EZ2DJ AEIC OST - 1950.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/AEIC/EZ2DJ AEIC OST - 1950.mp4"
+    media: "./media/AEIC/EZ2DJ AEIC OST - 1950.mp4"
   },
 {
     title: "Andes",
@@ -1480,12 +1480,21 @@ function loadTrack(i) {
   cd.style.backgroundImage = `url(${t.cover})`;
   title.innerText = t.title;
   artist.innerText = t.artist;
-
-  if (t.media.endsWith(".mp4")) {
-    mediaBox.innerHTML = `<video src="${t.media}" autoplay loop muted></video>`;
-  } else {
-    mediaBox.innerHTML = `<img src="${t.media}">`;
-  }
+if (t.media.endsWith(".mp4")) {
+  mediaBox.innerHTML = `
+    <video 
+      src="${t.media}" 
+      autoplay 
+      loop 
+      muted 
+      controls 
+      playsinline
+      style="width:100%; height:100%; object-fit:cover;"
+    ></video>
+  `;
+} else {
+  mediaBox.innerHTML = `<img src="${t.media}">`;
+}
 
   playBtn.innerText = "⏸";
   render();
