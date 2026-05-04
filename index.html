@@ -8,6 +8,10 @@
 
 <style>
 
+.track {
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
 #searchBox {
   position: fixed;   /* 🔥 핵심: 화면 기준 */
   top: 30px;
@@ -252,6 +256,114 @@ button:hover {
 }
 .seek { width: 340px; }
 .vol { width: 140px; }
+
+//모바일 UI
+@media (max-width: 768px) {
+
+  body {
+    overflow: auto; /* 🔥 모바일은 스크롤 허용 */
+  }
+
+  /* CD 크기 줄이기 */
+  .cd {
+    width: 260px;
+    height: 260px;
+  }
+
+  .left {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  /* 곡 리스트 중앙 정렬 */
+  .arc {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+  }
+
+  .track {
+    width: 90%;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    position: relative;
+    margin: 10px auto;
+  }
+
+  /* 우측 미디어 숨김 (모바일에서는 과함) */
+  .right {
+    display: none;
+  }
+
+  /* 하단 정보 중앙 정렬 */
+  .bottom {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  /* 플레이어 바 키우기 */
+  .player-bar {
+    height: 100px;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .seek {
+    width: 90%;
+  }
+
+  .vol {
+    width: 60%;
+  }
+
+  button {
+    padding: 14px 18px;
+    font-size: 18px;
+  }
+
+  /* 검색창 */
+  .search-wrapper {
+    right: 10px;
+    top: 10px;
+  }
+
+  #searchBox {
+    width: 160px;
+  }
+}
+#fullscreenBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,255,255,0.3);
+
+  background: rgba(0,0,0,0.6);
+  color: #00ffe1;
+  cursor: pointer;
+
+  z-index: 999;
+  transition: 0.2s;
+}
+
+#fullscreenBtn:hover {
+  box-shadow: 0 0 12px #00ffe1;
+}
 </style>
 
 </head>
@@ -1282,7 +1394,18 @@ function render() {
   tracks.forEach((t, i) => { //트랙 간격
     const div = document.createElement("div");
     const offset = i - current;
-    const y = 260 + offset * (60 + Math.min(Math.abs(offset), 2) * 1);
+
+/* 🔥 여기부터 새로 넣기 */
+let y = 260;
+
+for (let j = 0; j < Math.abs(offset); j++) {
+  if (j === 0) y += 85 * Math.sign(offset);  // 바로 위/아래
+  else y += 65 * Math.sign(offset);           // 그 다음부터
+}
+/* 🔥 여기까지 */
+
+div.style.opacity = i === current ? 1 : 0.5;
+
     const x = Math.cos(offset * 0.25) * 210;
 
     div.className = "track" + (i === current ? " active" : "");
@@ -1300,7 +1423,8 @@ div.innerHTML = `
     div.style.left = "120px";
     div.style.top = "260px";
     div.style.opacity = Math.max(0.18, 1 - Math.abs(offset) * 0.18);
-    div.style.transform = `translate(${x}px, ${y - 260}px) translateY(-50%) scale(${i === current ? 1.12 : (1 - Math.abs(offset) * 0.04)})`;
+    div.style.transform = `translate(${x}px, ${y - 260}px) translateY(-50%)
+scale(${i === current ? 1.3 : (1 - Math.abs(offset) * 0.02)})`;
 
     div.onclick = () => loadTrack(i);
     arc.appendChild(div);
@@ -1440,8 +1564,33 @@ document.addEventListener("keydown", (e) => {
       break;
   }
 });
+//모바일
+let touchStartY = 0;
+
+window.addEventListener("touchstart", e => {
+  touchStartY = e.touches[0].clientY;
+});
+
+window.addEventListener("touchend", e => {
+  const diff = e.changedTouches[0].clientY - touchStartY;
+
+  if (diff > 50) prevTrack();
+  if (diff < -50) nextTrack();
+});
+
+const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+fullscreenBtn.addEventListener("click", () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
 
 </script>
+
+<button id="fullscreenBtn">⛶</button>
 
 </body>
 </html>
