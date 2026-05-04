@@ -7,6 +7,69 @@
 <title>EZ2PLAYER</title>
 
 <style>
+
+#searchBox {
+  position: fixed;   /* 🔥 핵심: 화면 기준 */
+  top: 30px;
+  right: 40px;
+
+  width: 260px;
+  padding: 10px 14px;
+
+  border-radius: 999px;
+  border: 1px solid rgba(0,255,255,0.25);
+
+  background: rgba(0,255,255,0.05);
+  color: #9ff;
+
+  box-shadow: 0 0 12px rgba(0,255,255,0.12);
+
+  outline: none;
+  font-family: "Rajdhani", sans-serif;
+
+  z-index: 999; /* 🔥 다른 UI 위로 */
+  transition: 0.2s;
+}
+
+.search-wrapper {
+  position: fixed;
+  top: 30px;
+  right: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 999;
+}
+
+#searchBtn {
+  padding: 10px 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,255,255,0.25);
+  background: rgba(0,255,255,0.05);
+  color: #9ff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#searchBtn:hover {
+  box-shadow: 0 0 10px #00ffe1;
+  color: #fff;
+}
+
+
+#searchBox::placeholder {
+  color: rgba(0,255,255,0.5);
+  letter-spacing: 2px;
+}
+#searchBox:focus {
+  border-color: #00ffe1;
+  box-shadow:
+    0 0 10px #00ffe1,
+    0 0 22px rgba(0,255,225,0.6);
+  color: #fff;
+}
+
+
 .sub-title {
   font-size: 0.55em;
   opacity: 0.7;
@@ -49,7 +112,7 @@ body {
   position: relative;
   animation-play-state: paused;
   transition: transform 0.2s ease-out;
-}
+
 }
 .cd.spin {
   animation: spin 6s linear infinite;
@@ -190,8 +253,14 @@ button:hover {
 .seek { width: 340px; }
 .vol { width: 140px; }
 </style>
+
 </head>
 <body>
+
+<div class="search-wrapper">
+  <input type="text" id="searchBox" placeholder="SEARCH..." />
+  <button id="searchBtn">🔍</button>
+</div>
 
 <div class="left">
   <div class="cd" id="cd"></div>
@@ -1137,6 +1206,55 @@ const mediaBox = document.getElementById("mediaBox");
 const seek = document.getElementById("seek");
 let current = 0;
 
+const title = document.getElementById("title");
+const artist = document.getElementById("artist");
+const playBtn = document.getElementById("playBtn");
+
+const searchBox = document.getElementById("searchBox");
+
+let searchIndex = -1; // 🔥 추가
+
+const normalize = (str) =>
+  str.toLowerCase().replace(/\s+/g, ""); // 🔥 공백 제거
+
+searchBox.addEventListener("input", () => {
+  const q = normalize(searchBox.value);
+
+  if (!q) {
+    searchIndex = -1;
+    return;
+  }
+
+  const index = tracks.findIndex(t =>
+    normalize(t.title).includes(q) ||
+    normalize(t.artist).includes(q)
+  );
+
+  if (index !== -1) {
+    searchIndex = index;
+    current = index;
+    render();
+  }
+});
+
+function doSearch() {
+  if (searchIndex !== -1) {
+    loadTrack(searchIndex);
+  }
+}
+
+searchBox.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    doSearch();
+  }
+});
+
+const searchBtn = document.getElementById("searchBtn");
+
+if (searchBtn) {
+  searchBtn.addEventListener("click", doSearch);
+}
+
 function loadTrack(i) {
   current = i;
   const t = tracks[i];
@@ -1161,11 +1279,11 @@ function loadTrack(i) {
 function render() {
   arc.innerHTML = "";
 
-  tracks.forEach((t, i) => {
+  tracks.forEach((t, i) => { //트랙 간격
     const div = document.createElement("div");
     const offset = i - current;
-    const y = 260 + offset * 58;
-    const x = Math.cos(offset * 0.42) * 210;
+    const y = 260 + offset * (60 + Math.min(Math.abs(offset), 2) * 1);
+    const x = Math.cos(offset * 0.25) * 210;
 
     div.className = "track" + (i === current ? " active" : "");
     
@@ -1282,7 +1400,7 @@ window.addEventListener("wheel", e => {
 });
 
 loadTrack(0);
-
+render(); // 🔥 이거 추가
 document.addEventListener("keydown", (e) => {
 
   switch (e.code) {
@@ -1293,23 +1411,23 @@ document.addEventListener("keydown", (e) => {
       togglePlay();
       break;
 
-    /* ⏮ 이전곡 */
-    case "ArrowLeft":
+  /* ⏮ 이전곡 */ 
+    case "ArrowUp":
       prevTrack();
       break;
 
-    /* ⏭ 다음곡 */
-    case "ArrowRight":
+   /* ⏭ 다음곡 */
+    case "ArrowDown":
       nextTrack();
       break;
 
-    /* 🔊 볼륨 ↓ */
-    case "ArrowDown":
+ /* 🔊 볼륨 ↓ */
+    case "ArrowLeft":
       audio.volume = Math.max(0, audio.volume - 0.1);
       break;
 
-    /* 🔊 볼륨 ↑ */
-    case "ArrowUp":
+ /* 🔊 볼륨 ↑ */
+    case "ArrowRight":
       audio.volume = Math.min(1, audio.volume + 0.1);
       break;
 
