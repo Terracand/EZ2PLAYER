@@ -8,6 +8,12 @@
 
 <style>
 
+
+body.mobile .cd {
+  width: 260px;
+  height: 260px;
+}
+
 .track {
   transition: transform 0.25s ease, opacity 0.25s ease;
 }
@@ -240,28 +246,48 @@ button {
 button:hover {
   box-shadow: 0 0 12px #00ffe1;
 }
-
+/* 백그라운드영상 */
 .right {
   position: absolute;
   right: 0%;
   top: 0%;
   width: 50%;
 }
+.right {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: -1;              /* 🔥 완전히 뒤로 */
+  pointer-events: none;     /* 🔥 클릭 방해 X */
+}
 
 .right video,
 .right img {
   width: 100%;
-  opacity: 0.55;
-  filter: grayscale(1);
+  height: 100%;
+  object-fit: cover;        /* 🔥 화면 꽉 채움 */
+
+  opacity: 0.35;            /* 🔥 흐리게 */
+  filter: blur(6px);  /* 🔥 블러  */
 }
+
 .seek { width: 340px; }
 .vol { width: 140px; }
 
 //모바일 UI
-@media (max-width: 768px) {
+
+@media (max-width: 768px) and (pointer: coarse) and (orientation: portrait) {
+
+  #fullscreenBtn {
+    padding: 16px 18px;
+    font-size: 20px;
+  }
 
   body {
-    overflow: auto; /* 🔥 모바일은 스크롤 허용 */
+    overflow: auto; /* 👉 이 안에 들어가야 함 */
   }
 
   /* CD 크기 줄이기 */
@@ -343,7 +369,73 @@ button:hover {
   #searchBox {
     width: 160px;
   }
+} 
+/*모바일1*/
+
+/* 📱 모바일 가로모드 = PC 느낌 UI */
+@media (max-width: 768px) and (orientation: landscape) {
+
+  body {
+    overflow: hidden;
+  }
+
+  /* CD 위치 복구 */
+  .left {
+    position: absolute;
+    left: 5%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* CD 크기 (적당히 타협) */
+  .cd {
+    width: 380px;
+    height: 380px;
+  }
+
+  /* 곡 리스트 원래처럼 */
+  .arc {
+    position: absolute;
+    left: 20%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 520px;
+    height: 540px;
+  }
+
+  .track {
+    position: absolute;
+    width: 550px;
+  }
+
+  /* 배경 다시 켜기 */
+  .right {
+    display: block;
+  }
+
+  /* 하단 정보 PC 스타일 */
+  .bottom {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    text-align: left;
+  }
+
+  /* 플레이어 바 정리 */
+  .player-bar {
+    height: 100px;
+    flex-wrap: nowrap;
+  }
+
+  .seek {
+    width: 300px;
+  }
+
+  .vol {
+    width: 120px;
+  }
 }
+
 #fullscreenBtn {
   position: fixed;
   bottom: 20px;
@@ -363,7 +455,12 @@ button:hover {
 
 #fullscreenBtn:hover {
   box-shadow: 0 0 12px #00ffe1;
-}
+} /*모바일 가로모드끝*/
+
+
+
+
+
 </style>
 
 </head>
@@ -399,6 +496,12 @@ button:hover {
 <audio id="audio"></audio>
 
 <script>
+const isMobile = /iPhone|Android/i.test(navigator.userAgent);
+
+if (isMobile) {
+  document.body.classList.add("mobile");
+}
+
 /* 🎵 직접 관리하는 노래 song 트랙 리스트 (여기가 핵심) */
 const tracks = [
   /* AEIC */
@@ -1242,7 +1345,7 @@ const tracks = [
     artist: "Lunatic Sounds",
     file: "audio/ev/[EZ2AC EV OST] White Out.mp3",
     cover: "cover/EV2.jpg",
-    media: "media/EV1.jpg"
+    media: "media/White out.mp4"
   },
 {
     title: "Unambitious",
@@ -1577,14 +1680,34 @@ window.addEventListener("touchend", e => {
   if (diff > 50) prevTrack();
   if (diff < -50) nextTrack();
 });
-
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 
 fullscreenBtn.addEventListener("click", () => {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
+
+  const el = document.documentElement;
+
+  if (!document.fullscreenElement &&
+      !document.webkitFullscreenElement &&
+      !document.msFullscreenElement) {
+
+    if (el.requestFullscreen) {
+      el.requestFullscreen();
+    } else if (el.webkitRequestFullscreen) { // iOS / 일부 안드
+      el.webkitRequestFullscreen();
+    } else if (el.msRequestFullscreen) {
+      el.msRequestFullscreen();
+    }
+
   } else {
-    document.exitFullscreen();
+
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+
   }
 });
 
