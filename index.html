@@ -1345,7 +1345,7 @@ const tracks = [
     artist: "Lunatic Sounds",
     file: "audio/ev/[EZ2AC EV OST] White Out.mp3",
     cover: "cover/EV2.jpg",
-    media: "media/WHITE_OUT.mp4"
+    media: "media/EV/WHITE_OUT.mp4"
   },
 {
     title: "Unambitious",
@@ -1657,17 +1657,11 @@ document.addEventListener("keydown", (e) => {
     case "ArrowRight":
       audio.volume = Math.min(1, audio.volume + 0.1);
       break;
-
-    /* 🎵 숫자 1~9: 곡 점프 */
-    default:
-      if (e.code.startsWith("Digit")) {
-        const num = parseInt(e.code.replace("Digit", ""), 10) - 1;
-        if (tracks[num]) loadTrack(num);
-      }
-      break;
   }
 });
+
 /*모바일*/
+
 let touchStartY = 0;
 
 window.addEventListener("touchstart", e => {
@@ -1680,8 +1674,18 @@ window.addEventListener("touchend", e => {
   if (diff > 50) prevTrack();
   if (diff < -50) nextTrack();
 });
-const fullscreenBtn = document.getElementById("fullscreenBtn");
 
+function goFullscreen(el) {
+  if (el.requestFullscreen) {
+    el.requestFullscreen();
+  } else if (el.webkitRequestFullscreen) {
+    el.webkitRequestFullscreen();
+  } else if (el.msRequestFullscreen) {
+    el.msRequestFullscreen();
+  }
+}
+
+const fullscreenBtn = document.getElementById("fullscreenBtn");
 fullscreenBtn.addEventListener("click", () => {
 
   const el = document.documentElement;
@@ -1692,8 +1696,8 @@ fullscreenBtn.addEventListener("click", () => {
 
     if (el.requestFullscreen) {
       el.requestFullscreen();
-    } else if (el.webkitRequestFullscreen) { // iOS / 일부 안드
-      el.webkitRequestFullscreen();
+    } else if (el.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen(); // iOS / 일부 안드
     } else if (el.msRequestFullscreen) {
       el.msRequestFullscreen();
     }
@@ -1713,7 +1717,7 @@ fullscreenBtn.addEventListener("click", () => {
 
 </script>
 
-<button id="fullscreenBtn">⛶</button>
+<button id="fullscreenBtn" type="button">⛶</button>
 
 </body>
 </html>
