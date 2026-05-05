@@ -7,14 +7,7 @@
 <title>EZ2PLAYER</title>
 
 <style>
-#bgVideo, #bgYoutube {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.35;
-  filter: blur(6px);
-}
+
 
 body.mobile .cd {
   width: 260px;
@@ -294,7 +287,7 @@ button:hover {
   }
 
   body {
-    overflow: hidden; 
+    overflow: hidden; }
 
   .left {
     position: relative;
@@ -373,28 +366,26 @@ button:hover {
 /*모바일1*/
 
 /* 📱 모바일 가로모드 = PC 느낌 UI */
-@media (max-width: 768px) and (pointer: coarse) and (orientation: portrait) {
+@media (max-width: 768px) and (orientation: landscape) {
 
-  body {
-    overflow: hidden;
-  }
-
-  .left {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-  }
-
-  .cd {
-    width: 260px;
-    height: 260px;
-  }
-
+body {
+  overflow: hidden;
+  touch-action: none;
 }
+
+  /* CD 위치 복구 */
+  .left {
+    position: absolute;
+    left: 5%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* CD 크기 (적당히 타협) */
+  .cd {
+    width: 700px;
+    height: 700px;
+  }
 .arc {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -461,13 +452,7 @@ button:hover {
 
 <div class="arc" id="arc"></div>
 
-<!-- 유튜브영상 -->
-
-<div class="right">
-  <iframe id="bgYoutube" allow="autoplay; fullscreen"></iframe>
-  <video id="bgVideo" autoplay muted loop></video>
-</div>
-
+<div class="right" id="mediaBox"></div>
 
 <div class="bottom">
   <div class="title" id="title"></div>
@@ -486,9 +471,6 @@ button:hover {
 <audio id="audio"></audio>
 
 <script>
-const bgVideo = document.getElementById("bgVideo");
-const bgYoutube = document.getElementById("bgYoutube");
-
 const isMobile = /iPhone|Android/i.test(navigator.userAgent);
 
 if (isMobile) {
@@ -503,14 +485,14 @@ const tracks = [
     artist: "1",
     file: "audio/aeic/EZ2DJ AEIC OST - 1950.mp3",
     cover: "cover/AZURE.jpg",
-    video: "./media/AEIC/EZ2DJ AEIC OST - 1950.mp4"
+    media: "./media/AEIC/EZ2DJ AEIC OST - 1950.mp4"
   },
 {
     title: "Andes",
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Andes.mp3",
     cover: "cover/AZURE.jpg",
-    media: "yz71QinUjTg"
+    media: "media/AEIC/song2.jpg"
   },
 {
     title: "Beyond The Azure Skies",
@@ -1473,17 +1455,20 @@ function loadTrack(i) {
   cd.style.backgroundImage = `url(${t.cover})`;
   title.innerText = t.title;
   artist.innerText = t.artist;
-
-
-
-  /* 🔥 유튜브 배경 변경 */
-  const bgVideo = document.getElementById("bgVideo");
-
-if (t.video) {
-  bgVideo.src =
-    `https://www.youtube.com/embed/${t.video}?autoplay=1&mute=1&controls=0&loop=1&playlist=${t.video}&playsinline=1`;
+if (t.media.endsWith(".mp4")) {
+  mediaBox.innerHTML = `
+    <video 
+      src="${t.media}" 
+      autoplay 
+      loop 
+      muted 
+      controls 
+      playsinline
+      style="width:100%; height:100%; object-fit:cover;"
+    ></video>
+  `;
 } else {
-  bgVideo.src = "";
+  mediaBox.innerHTML = `<img src="${t.media}">`;
 }
 
   playBtn.innerText = "⏸";
