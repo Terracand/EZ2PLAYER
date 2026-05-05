@@ -277,94 +277,6 @@ button:hover {
 .seek { width: 340px; }
 .vol { width: 140px; }
 
-/*모바일  UI*/
-
-@media (max-width: 768px) and (hover: none) and (pointer: coarse) {
-
-  body {
-    overflow: hidden;
-  }
-
-  .left {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-  }
-
-
-
-
-
-  /* 곡 리스트 중앙 정렬 */
-  .arc {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    width: 100%;
-    height: auto;
-    margin-top: 20px;
-  }
-
-  .track {
-    width: 90%;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    position: relative;
-    margin: 10px auto;
-  }
-
-  /* 우측 미디어 숨김 (모바일에서는 과함) */
-  .right {
-    display: none;
-  }
-
-  /* 하단 정보 중앙 정렬 */
-  .bottom {
-    position: relative;
-    left: auto;
-    bottom: auto;
-    text-align: center;
-    margin-top: 20px;
-  }
-
-  /* 플레이어 바 키우기 */
-  .player-bar {
-    height: 100px;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 10px;
-  }
-
-  .seek {
-    width: 90%;
-  }
-
-  .vol {
-    width: 60%;
-  }
-
-  button {
-    padding: 14px 18px;
-    font-size: 18px;
-  }
-
-  /* 검색창 */
-  .search-wrapper {
-    right: 10px;
-    top: 10px;
-  }
-
-  #searchBox {
-    width: 160px;
-  }
-} 
-
-}
 /*모바일1*/
 
 /* 📱 모바일 가로모드 = PC 느낌 UI */
@@ -393,7 +305,7 @@ body {
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
 }
-  /* 곡 리스트 원래처럼 */
+  /* 곡 리스트  */
   .arc {
     position: absolute;
     left: 20%;
@@ -475,10 +387,6 @@ body {
 <script>
 const isMobile = /iPhone|Android/i.test(navigator.userAgent);
 
-if (isMobile) {
-  document.body.classList.add("mobile");
-}
-
 /* 🎵 직접 관리하는 노래 song 트랙 리스트 (여기가 핵심) */
 const tracks = [
   /* AEIC */
@@ -494,7 +402,7 @@ const tracks = [
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Andes.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/AEIC/song2.jpg"
+    video: "kHVL3z2SoKI"
   },
 {
     title: "Beyond The Azure Skies",
@@ -1457,10 +1365,41 @@ function loadTrack(i) {
   cd.style.backgroundImage = `url(${t.cover})`;
   title.innerText = t.title;
   artist.innerText = t.artist;
-if (t.media.endsWith(".mp4")) {
+
+/*BGA*/
+function getYouTubeId(input) {
+  if (!input) return null;
+
+  if (!input.includes("http") && input.length === 11) {
+    return input;
+  }
+
+  let match = input.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+  if (match) return match[1];
+
+  match = input.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
+  if (match) return match[1];
+
+  return input;
+}
+if (t.video && t.video.length > 0) { {
+  const id = getYouTubeId(t.video);
+
+  mediaBox.innerHTML = `
+    <iframe
+      width="100%"
+      height="100%"
+      src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&rel=0"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+    ></iframe>
+  `;
+}
+else if (t.media && t.media.length > 0) { {
   mediaBox.innerHTML = `
     <video 
-      src="${t.media}" 
+      src="${t.media}"
       autoplay 
       loop 
       muted 
@@ -1469,9 +1408,11 @@ if (t.media.endsWith(".mp4")) {
       style="width:100%; height:100%; object-fit:cover;"
     ></video>
   `;
-} else {
-  mediaBox.innerHTML = `<img src="${t.media}">`;
 }
+else {
+  mediaBox.innerHTML = "";
+}
+/*BGA end*/
 
   playBtn.innerText = "⏸";
   render();
