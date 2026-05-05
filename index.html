@@ -600,7 +600,7 @@ const tracks = [
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] Hey Barbie.mp3",
     cover: "cover/EC1.jpg",
-    video: "_JWG0wWMao8"
+    video: "_JWG0wWMao8?si=ue-jmkpfiYkHLWVv&t=4"
   },
 {
     title: "Airwave",
@@ -621,7 +621,7 @@ const tracks = [
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] Cosmical Rhythm.mp3",
     cover: "cover/EC1.jpg",
-    video: "_JWG0wWMao8?si=ue-jmkpfiYkHLWVv&t=3"
+    video: "_JWG0wWMao8?si=ue-jmkpfiYkHLWVv&t=4"
   },
 {
     title: "Dream Walker",
@@ -635,7 +635,7 @@ const tracks = [
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] On My Way.mp3",
     cover: "cover/EC1.jpg",
-    video: "_JWG0wWMao8?si=ue-jmkpfiYkHLWVv&t=3"
+    video: "_JWG0wWMao8?si=ue-jmkpfiYkHLWVv&t=4"
   },
 {
     title: "A Glimmer",
@@ -833,7 +833,7 @@ const tracks = [
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] Hesitate.mp3",
     cover: "cover/EC2.jpg",
-    video: "_JWG0wWMao8"
+    video: "_JWG0wWMao8?si=ue-jmkpfiYkHLWVv&t=4"
   },
 {
     title: "UniT",
@@ -904,7 +904,7 @@ const tracks = [
     artist: "2",
     file: "audio/ec/BONUS/EZ2AC BONUS OST - Funfair.mp3",
     cover: "cover/EC3.jpg",
-    media: "media/EC3.jpg"
+    video: "_JWG0wWMao8?si=ue-jmkpfiYkHLWVv&t=4"
   },
 {
     title: "Actias Artemis (Original Mix)",
@@ -939,7 +939,7 @@ const tracks = [
     artist: "2",
     file: "audio/ec/BONUS/EZ2AC BONUS OST - Sewing Machine.mp3",
     cover: "cover/EC3.jpg",
-    media: "media/EC3.jpg"
+    video: "_JWG0wWMao8?si=ue-jmkpfiYkHLWVv&t=4"
   },
 {
     title: "Phat Trash (Original Mix)",
@@ -1451,8 +1451,8 @@ if (t.video) {
 
   /* 🔥 다음곡 미리 로딩 */
   const next = tracks[(current + 1) % tracks.length];
-  const nextId = getYouTubeId(next.video);
-  preloadBGA(nextId);
+  const { id: nextId } = parseYouTube(next.video);
+preloadBGA(nextId);
 }
 
 else if (t.media) {
