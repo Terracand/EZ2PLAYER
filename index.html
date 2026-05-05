@@ -1406,24 +1406,12 @@ function loadTrack(i) {
   title.innerText = t.title;
   artist.innerText = t.artist;
 /* BGA */
-  
-function preloadBGA(id) {
-  const temp = document.createElement("iframe");
+ /* 🔥 다음곡 미리 로딩 */
+const next = tracks[(current + 1) % tracks.length];
+const nextId = getYouTubeId(next.video);
 
-  temp.src = `https://www.youtube.com/embed/${id}?autoplay=0&mute=1&controls=0&rel=0`;
-  temp.style.width = "1px";
-  temp.style.height = "1px";
-  temp.style.opacity = "0";
-  temp.style.position = "absolute";
+preloadBGA(nextId);
 
-  document.body.appendChild(temp);
-}
-
-
-
-  
-preloadBGA(nextTrackId);
-  /* BGA */
 
 function getYouTubeId(input) {
   if (!input) return null;
