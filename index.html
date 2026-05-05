@@ -1426,9 +1426,10 @@ function loadTrack(i) {
   const t = tracks[i];
 
   /* 오디오 지연*/
+audio.src = t.file;
+audio.load();
 
- audio.src = t.file;
-audio.onloadedmetadata = () => {
+audio.oncanplay = () => {
   audio.currentTime = 0.5;
   audio.play();
 };
