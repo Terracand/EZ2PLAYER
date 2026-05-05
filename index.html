@@ -8,7 +8,6 @@
 
 <style>
 
-
 .bga-wrapper {
   width: 100%;
   height: 100%;
@@ -16,13 +15,18 @@
   position: relative;
 
   filter: blur(6px) brightness(0.7);
-  transform: scale(1.1); /* 가장자리 빈틈 방지 */
 }
 
-.bga-wrapper iframe,
-.bga-wrapper video {
-  width: 100%;
-  height: 100%;
+/* iframe을 크게 만들어서 잘라버림 */
+.bga-wrapper iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 140%;
+  height: 140%;
+
+  transform: translate(-50%, -50%);
   border: none;
 }
 
@@ -419,7 +423,7 @@ const tracks = [
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Andes.mp3",
     cover: "cover/AZURE.jpg",
-    video: "yz71QinUjTg"
+    video: "kHVL3z2SoKI"
   },
 {
     title: "Beyond The Azure Skies",
