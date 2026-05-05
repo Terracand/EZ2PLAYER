@@ -1427,18 +1427,12 @@ function loadTrack(i) {
   const t = tracks[i];
 
   /* 오디오 지연*/
-/* 영상 먼저 */
-loadVideo();
-
-/* 오디오 로드 */
 audio.src = t.file;
 audio.load();
 
-/* ⭐ 준비된 뒤 정확히 지연 */
-audio.addEventListener("canplaythrough", () => {
-  setTimeout(() => {
-    audio.play().catch(e => console.log(e));
-  }, 500);
+audio.addEventListener("loadedmetadata", () => {
+  audio.currentTime = 0.5;  // 🔥 핵심
+  audio.play().catch(e => console.log(e));
 }, { once: true });
 
 /* 현재 영상 */
