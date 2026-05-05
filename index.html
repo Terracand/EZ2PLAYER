@@ -1428,12 +1428,14 @@ function loadTrack(i) {
 
   /* 오디오 지연*/
 audio.src = t.file;
-audio.load();
 
-audio.oncanplay = () => {
+audio.addEventListener("loadedmetadata", () => {
   audio.currentTime = 0.5;
-  audio.play();
-};
+}, { once: true });
+
+audio.play().catch(e => {
+  console.log("play 막힘:", e);
+});
   
   cd.style.backgroundImage = `url(${t.cover})`;
   title.innerText = t.title;
