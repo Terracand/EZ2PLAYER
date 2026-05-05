@@ -1404,7 +1404,15 @@ function loadTrack(i) {
 const next = tracks[(current + 1) % tracks.length];
 const nextId = getYouTubeId(next.video);
 
-preloadBGA(nextId);
+const link = document.createElement("link");
+link.rel = "preconnect";
+link.href = "https://www.youtube.com";
+document.head.appendChild(link);
+
+const link2 = document.createElement("link");
+link2.rel = "preconnect";
+link2.href = "https://i.ytimg.com";
+document.head.appendChild(link2);
 
 
 function getYouTubeId(input) {
