@@ -408,7 +408,7 @@ body {
 <script>
 const isMobile = /iPhone|Android/i.test(navigator.userAgent);
 
-/* 🎵 직접 관리하는 노래 song 트랙 리스트 (여기가 핵심) */
+/* 🎵 직접 관리하는 노래 곡 song 트랙 리스트 (여기가 핵심) */
 const tracks = [
   /* AEIC */
 {
@@ -486,91 +486,91 @@ const tracks = [
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Intuition.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
+    video: "aR6-UciCNnQ"
   },
 {
     title: "Nihilism",
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Nihilism.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
+    video: "aR6-UciCNnQ"
   },
 {
     title: "Liquid cube",
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Liquid cube.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/EZ2DJ AEIC OST - Liquid cube.mp4"
+    video: "aR6-UciCNnQ"
   },
 {
     title: "Morgenglut 2012",
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Morgenglut 2012.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
+    video: "aR6-UciCNnQ"
   },
 {
     title: "Nachthexen",
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Nachthexen.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
+    video: "aR6-UciCNnQ"
   },
 {
     title: "Nihilism",
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Nihilism.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
+    video: "aR6-UciCNnQ"
   },
 {
     title: "Out Of The Blue",
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Out Of The Blue.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
+    video: "aR6-UciCNnQ"
   },
 {
     title: "Phat Trash",
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Phat Trash.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
+    video: "aR6-UciCNnQ"
   },
 {
     title: "Resonance Spectra",
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Resonance Spectra.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
+    video: "aR6-UciCNnQ"
   },
 {
     title: "Rising In My Heart",
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Rising In My Heart.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
+    video: "aR6-UciCNnQ"
   },
 {
     title: "Satellite 61",
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Satellite 61.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
+    video: "aR6-UciCNnQ"
   },
 {
     title: "Taillight Phantom",
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - Taillight Phantom.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
+    video: "aR6-UciCNnQ"
   },
 {
     title: "The Ashtray",
     artist: "2",
     file: "audio/aeic/EZ2DJ AEIC OST - The Ashtray.mp3",
     cover: "cover/AZURE.jpg",
-    media: "media/song2.jpg"
+    video: "aR6-UciCNnQ"
   },
 {
     title: "The Greatest Escape",
@@ -1330,20 +1330,14 @@ let current = 0;
 /* 🔥 BGA CACHE */
 const bgCache = {};
   
-  function preloadBGA(id) {
+function preloadBGA(id) {
   if (!id || bgCache[id]) return;
 
   const iframe = document.createElement("iframe");
 
   iframe.src = `https://www.youtube.com/embed/${id}?controls=0&rel=0&mute=1&playsinline=1`;
-  iframe.style.width = "1px";
-  iframe.style.height = "1px";
-  iframe.style.opacity = "0";
-  iframe.style.position = "absolute";
-
-  document.body.appendChild(iframe);
-
-  bgCache[id] = iframe;
+  
+  bgCache[id] = iframe; // 🔥 DOM에 넣지 않음
 }
   
 const title = document.getElementById("title");
@@ -1436,7 +1430,7 @@ if (t.video) {
   mediaBox.innerHTML = `
     <div class="bga-wrapper">
       <iframe
-        src="https://www.youtube.com/embed/${id}?controls=0&rel=0&mute=1&playsinline=1"
+        src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&controls=0&rel=0&playsinline=1"
         frameborder="0"
         allow="autoplay; encrypted-media"
         allowfullscreen
