@@ -1388,19 +1388,7 @@ const searchBtn = document.getElementById("searchBtn");
 if (searchBtn) {
   searchBtn.addEventListener("click", doSearch);
 }
-
-function loadTrack(i) {
-  current = i;
-  const t = tracks[i];
-
-  audio.src = t.file;
-  audio.play();
-
-  cd.style.backgroundImage = `url(${t.cover})`;
-  title.innerText = t.title;
-  artist.innerText = t.artist;
-/* BGA */
- /* 🔥 다음곡 미리 로딩 */
+/* 🔥 다음곡 미리 로딩 */
 const next = tracks[(current + 1) % tracks.length];
 const nextId = getYouTubeId(next.video);
 
@@ -1413,6 +1401,18 @@ const link2 = document.createElement("link");
 link2.rel = "preconnect";
 link2.href = "https://i.ytimg.com";
 document.head.appendChild(link2);
+function loadTrack(i) {
+  current = i;
+  const t = tracks[i];
+
+  audio.src = t.file;
+  audio.play();
+
+  cd.style.backgroundImage = `url(${t.cover})`;
+  title.innerText = t.title;
+  artist.innerText = t.artist;
+/* BGA */
+ 
 
 
 function getYouTubeId(input) {
