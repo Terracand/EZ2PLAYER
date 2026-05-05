@@ -869,7 +869,7 @@ const tracks = [
     artist: "HiRO",
     file: "audio/ec/[EZ2AC EC OST] Planet X.mp3",
     cover: "cover/EC2.jpg",
-    video: "VhvhW9d0"
+    video: "VhvhW9d0-1E"
   },
 {
     title: "Break of Dawn",
@@ -1359,6 +1359,8 @@ function preloadBGA(id) {
   const iframe = document.createElement("iframe");
 
   iframe.src = `https://www.youtube.com/embed/${id}?controls=0&rel=0&mute=1&playsinline=1`;
+
+iframe.loading = "lazy";
   
   bgCache[id] = iframe; // 🔥 DOM에 넣지 않음
 }
@@ -1369,7 +1371,7 @@ const playBtn = document.getElementById("playBtn");
 
 const searchBox = document.getElementById("searchBox");
 
-let searchIndex = -1; // 🔥 추가
+let searchIndex = -1;
 
 const normalize = (str) =>
   str.toLowerCase().replace(/\s+/g, ""); // 🔥 공백 제거
@@ -1426,6 +1428,10 @@ function loadTrack(i) {
   current = i;
   const t = tracks[i];
 
+cd.style.backgroundImage = `url(${t.cover})`;
+
+
+  
   /* 오디오 지연*/
 audio.src = t.file;
 audio.load();
@@ -1439,21 +1445,27 @@ audio.addEventListener("loadedmetadata", () => {
 if (t.video) {
   const { id, start } = parseYouTube(t.video);
 
-  mediaBox.innerHTML = `
-    <div class="bga-wrapper">
-      <iframe
-        src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&controls=0&rel=0&playsinline=1&start=${start}"
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen
-      ></iframe>
-    </div>
-  `;
+  // 🔥 iframe 생성
+  const iframe = document.createElement("iframe");
+  iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&controls=0&rel=0&playsinline=1&start=${start}`;
+  iframe.loading = "lazy"; // ⭐ 여기 추가
+  iframe.frameBorder = "0";
+  iframe.allow = "autoplay; encrypted-media";
+  iframe.allowFullscreen = true;
+
+  // 🔥 wrapper 생성
+  const wrapper = document.createElement("div");
+  wrapper.className = "bga-wrapper";
+  wrapper.appendChild(iframe);
+
+  // 🔥 기존 내용 제거 후 삽입
+  mediaBox.innerHTML = "";
+  mediaBox.appendChild(wrapper);
 
   /* 🔥 다음곡 미리 로딩 */
   const next = tracks[(current + 1) % tracks.length];
   const { id: nextId } = parseYouTube(next.video);
-preloadBGA(nextId);
+  preloadBGA(nextId);
 }
 
 else if (t.media) {
@@ -1672,10 +1684,10 @@ function goFullscreen(el) {
     el.msRequestFullscreen();
   }
 }
-  
-function getNextVideoId() {
+  function getNextVideoId() {
   const next = tracks[(current + 1) % tracks.length];
-  return getYouTubeId(next.video);
+  const { id } = parseYouTube(next.video);
+  return id;
 }
 
 </script>
