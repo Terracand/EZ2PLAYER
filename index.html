@@ -1433,17 +1433,17 @@ function loadTrack(i) {
   
 cd.style.backgroundImage = `url(${t.cover})`;
 
+/* 🔥 오디오 재생 (여기에 넣어) */
+audio.pause();
+audio.currentTime = 0;
 
-  
-  /* 오디오 지연*/
 audio.src = t.file;
 audio.load();
 
-audio.addEventListener("loadedmetadata", () => {
-  audio.currentTime = 0.5;  // 🔥 핵심
+audio.oncanplaythrough = () => {
   audio.play().catch(e => console.log(e));
-}, { once: true });
-
+};
+  
 /* 현재 영상 */
 if (t.video) {
   const { id, start } = parseYouTube(t.video);
