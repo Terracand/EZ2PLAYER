@@ -1428,6 +1428,9 @@ function loadTrack(i) {
   current = i;
   const t = tracks[i];
 
+ title.innerText = t.title;
+  artist.innerText = t.artist;
+  
 cd.style.backgroundImage = `url(${t.cover})`;
 
 
