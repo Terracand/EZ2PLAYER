@@ -1320,6 +1320,22 @@ const tracks = [
   },
 ];
 
+function getYouTubeId(input) {
+  if (!input) return null;
+
+  if (!input.includes("http") && input.length === 11) {
+    return input;
+  }
+
+  let match = input.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+  if (match) return match[1];
+
+  match = input.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
+  if (match) return match[1];
+
+  return input;
+}
+  
 const audio = document.getElementById("audio");
 const arc = document.getElementById("arc");
 const cd = document.getElementById("cd");
@@ -1388,9 +1404,7 @@ const searchBtn = document.getElementById("searchBtn");
 if (searchBtn) {
   searchBtn.addEventListener("click", doSearch);
 }
-/* 🔥 다음곡 미리 로딩 */
-const next = tracks[(current + 1) % tracks.length];
-const nextId = getYouTubeId(next.video);
+
 
 const link = document.createElement("link");
 link.rel = "preconnect";
@@ -1411,25 +1425,7 @@ function loadTrack(i) {
   cd.style.backgroundImage = `url(${t.cover})`;
   title.innerText = t.title;
   artist.innerText = t.artist;
-/* BGA */
- 
 
-
-function getYouTubeId(input) {
-  if (!input) return null;
-
-  if (!input.includes("http") && input.length === 11) {
-    return input;
-  }
-
-  let match = input.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
-  if (match) return match[1];
-
-  match = input.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
-  if (match) return match[1];
-
-  return input;
-}
 
 /* 현재 영상 */
 if (t.video) {
