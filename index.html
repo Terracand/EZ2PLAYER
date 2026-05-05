@@ -1425,10 +1425,14 @@ function loadTrack(i) {
   current = i;
   const t = tracks[i];
 
-  audio.src = t.file;
-audio.play().then(() => {
+  /* 오디오 지연*/
+
+ audio.src = t.file;
+audio.onloadedmetadata = () => {
   audio.currentTime = 0.5;
-});
+  audio.play();
+};
+  
   cd.style.backgroundImage = `url(${t.cover})`;
   title.innerText = t.title;
   artist.innerText = t.artist;
