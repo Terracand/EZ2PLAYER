@@ -621,21 +621,21 @@ const tracks = [
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] Cosmical Rhythm.mp3",
     cover: "cover/EC1.jpg",
-    video: "_JWG0wWMao8"
+    video: "_JWG0wWMao8?si=ue-jmkpfiYkHLWVv&t=3"
   },
 {
     title: "Dream Walker",
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] Dream Walker.mp3",
     cover: "cover/EC1.jpg",
-    video: "GtEZyyGiS4U"
+    video: "58cX7_4ADx8"
   },
 {
     title: "On My Way",
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] On My Way.mp3",
     cover: "cover/EC1.jpg",
-    video: "_JWG0wWMao8"
+    video: "_JWG0wWMao8?si=ue-jmkpfiYkHLWVv&t=3"
   },
 {
     title: "A Glimmer",
@@ -791,35 +791,35 @@ const tracks = [
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] Again.mp3",
     cover: "cover/EC1.jpg",
-    video: "_JWG0wWMao8"
+    video: "SO3yftr9pcA"
   },
 {
     title: "Push me again",
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] Push me again.mp3",
     cover: "cover/EC2.jpg",
-    video: "_JWG0wWMao8"
+    video: "jyMFXN9_RTs"
   },
 {
     title: "FUTURE NIGHT",
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] FUTURE NIGHT.mp3",
     cover: "cover/EC2.jpg",
-    video: "_JWG0wWMao8"
+    video: "8qMM-zqN3tY"
   },
 {
     title: "Fallback",
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] Fallback.mp3",
     cover: "cover/EC2.jpg",
-    video: "_JWG0wWMao8"
+    video: "JbDn68OORDg"
   },
 {
     title: "Magic Square",
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] Magic Square.mp3",
     cover: "cover/EC2.jpg",
-    video: "_JWG0wWMao8"
+    video: "OSnGELp_ag4"
   },
 {
     title: "Rendezvous Coast",
@@ -833,70 +833,70 @@ const tracks = [
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] Hesitate.mp3",
     cover: "cover/EC2.jpg",
-    media: "media/EC2.jpg"
+    video: "_JWG0wWMao8"
   },
 {
     title: "UniT",
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] UniT.mp3",
     cover: "cover/EC2.jpg",
-    media: "media/EC2.jpg"
+    video: "oIYgesTqf_k"
   },
 {
     title: "WHEEL OF FIRE",
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] WHEEL OF FIRE.mp3",
     cover: "cover/EC2.jpg",
-    media: "media/EC2.jpg"
+    video: "3FKGyssEnOw"
   },
 {
     title: "Black tinted alley",
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] Black tinted alley.mp3",
     cover: "cover/EC2.jpg",
-    media: "media/EC2.jpg"
+    video: "lu_MlBDxoqI"
   },
 {
     title: "Total Eclipse",
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] Total Eclipse.mp3",
     cover: "cover/EC2.jpg",
-    media: "media/EC2.jpg"
+    video: "V-fxmjffw48"
   },
 {
     title: "Planet X",
-    artist: "2",
+    artist: "HiRO",
     file: "audio/ec/[EZ2AC EC OST] Planet X.mp3",
     cover: "cover/EC2.jpg",
-    media: "media/EC2.jpg"
+    video: "VhvhW9d0"
   },
 {
     title: "Break of Dawn",
-    artist: "2",
+    artist: "KIEN",
     file: "audio/ec/[EZ2AC EC OST] Break of Dawn.mp3",
     cover: "cover/EC2.jpg",
-    media: "media/EC2.jpg"
+    video: "O_XQmQqgHd0"
   },
 {
     title: "A Site De La Rue",
-    artist: "2",
+    artist: "STREME REVERIE",
     file: "audio/ec/[EZ2AC EC OST] A Site De La Rue.mp3",
     cover: "cover/EC2.jpg",
-    media: "media/EC2.jpg"
+    video: "f7XnYM7x2AM"
   },
 {
     title: "Legend",
-    artist: "2",
+    artist: "Lunatic Sounds",
     file: "audio/ec/[EZ2AC EC OST] Legend.mp3",
     cover: "cover/EC2.jpg",
-    media: "media/EC2.jpg"
+    video: "4S1bmVD8DUE"
   },
 {
     title: "northpole",
     artist: "2",
     file: "audio/ec/[EZ2AC EC OST] northpole.mp3",
     cover: "cover/EC2.jpg",
-    media: "media/EC2.jpg"
+    video: "K79jZ6r6s5o"
   },
 /*EC3-#4 SPIRAL*/
 {
@@ -1406,8 +1406,9 @@ function loadTrack(i) {
   const t = tracks[i];
 
   audio.src = t.file;
-  audio.play();
-
+audio.play().then(() => {
+  audio.currentTime = 0.5;
+});
   cd.style.backgroundImage = `url(${t.cover})`;
   title.innerText = t.title;
   artist.innerText = t.artist;
