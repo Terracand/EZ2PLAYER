@@ -1365,8 +1365,7 @@ function loadTrack(i) {
   cd.style.backgroundImage = `url(${t.cover})`;
   title.innerText = t.title;
   artist.innerText = t.artist;
-
-/*BGA*/
+/* BGA */
 function getYouTubeId(input) {
   if (!input) return null;
 
@@ -1382,7 +1381,8 @@ function getYouTubeId(input) {
 
   return input;
 }
-if (t.video && t.video.length > 0) { {
+
+if (t.video) {
   const id = getYouTubeId(t.video);
 
   mediaBox.innerHTML = `
@@ -1396,7 +1396,7 @@ if (t.video && t.video.length > 0) { {
     ></iframe>
   `;
 }
-else if (t.media && t.media.length > 0) { {
+else if (t.media) {
   mediaBox.innerHTML = `
     <video 
       src="${t.media}"
@@ -1412,7 +1412,7 @@ else if (t.media && t.media.length > 0) { {
 else {
   mediaBox.innerHTML = "";
 }
-/*BGA end*/
+/* BGA end */
 
   playBtn.innerText = "⏸";
   render();
